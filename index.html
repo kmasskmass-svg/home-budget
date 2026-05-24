@@ -1,540 +1,822 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الميزانية الذكي - أ. كليب الزهراني</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>الميزانية الذكية | إيرادات · مصاريف · ادخار تلقائي + الصرف اليومي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #1e3c72;
-            --secondary: #2a5298;
-            --accent: #00d2ff;
-            --success: #00b09b;
-            --danger: #ff512f;
-            --bg: #f5f7fa;
-            --surface: #ffffff;
-            --text-main: #2d3436;
-            --text-light: #636e72;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            background: linear-gradient(145deg, #eef2f9 0%, #e0e8f2 100%);
             font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px 10px;
+            padding: 16px 12px;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1100px;
+        .main-card {
+            max-width: 1400px;
             margin: 0 auto;
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            position: relative;
-        }
-
-        h1 {
-            color: var(--primary);
-            margin: 0;
-            font-size: 28px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .prepared-by {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--surface);
-            background: linear-gradient(to right, var(--secondary), var(--primary));
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 25px;
-            margin-top: 15px;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.2);
-        }
-
-        .top-buttons {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .btn-print { background: #e0e6ed; color: var(--primary); }
-        .btn-print:hover { background: #d3dce6; }
-        
-        .btn-export { background: #d1fae5; color: #059669; }
-        .btn-export:hover { background: #a7f3d0; }
-        
-        .btn-clear { background: #ffeaa7; color: #d63031; }
-        .btn-clear:hover { background: #fdcb6e; }
-
-        .settings-panel {
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .input-group input {
-            width: 90%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--secondary);
-        }
-
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: var(--surface);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
-            position: relative;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-        }
-        .card:nth-child(1)::before { background: var(--danger); }
-        .card:nth-child(2)::before { background: var(--secondary); }
-        .card:nth-child(3)::before { background: var(--success); }
-
-        .card h3 {
-            margin: 0;
-            font-size: 15px;
-            color: var(--text-light);
+        /* الرأس */
+        .hero {
+            background: linear-gradient(135deg, #13294b, #1d3e6e);
+            padding: 1.2rem 1.5rem 0.8rem 1.5rem;
+            color: white;
+            border-bottom-left-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
         }
 
-        .card .value {
-            font-size: 32px;
+        .title-section {
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to left, #ffffff, #c9e9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.3rem;
+        }
+
+        .subhead {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .developer-badge {
+            background: rgba(255,255,240,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            backdrop-filter: blur(4px);
+            padding: 0.45rem 1.2rem;
+            border-radius: 60px;
+            color: white;
             font-weight: 700;
-            margin-top: 15px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .table-responsive {
-            overflow-x: auto;
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
-        <table> {
+        /* المحتوى الرئيسي */
+        .dashboard {
+            padding: 1.8rem 1.5rem 2rem;
+        }
+
+        /* الصف الأول: دخل + مصاريف شهرية (عمودين) */
+        .row-income-expenses {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* بطاقات عامة */
+        .glass-card {
+            background: #fefefe;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 22px -10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.2rem 1.2rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-right: 4px solid #2a7f6e;
+            padding-right: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a2c3e;
+            margin: 0;
+        }
+
+        .income-input-large {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 800px;
+            padding: 0.8rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-align: center;
+            border: 2px solid #e2edf2;
+            border-radius: 1.2rem;
+            background: #f9fcff;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .expense-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+            background: #ffffff;
+            border-radius: 1.2rem;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #e9edf2;
+        }
+
+        .expense-label {
+            font-weight: 800;
+            min-width: 120px;
+            font-size: 0.85rem;
+            color: #1f3a4b;
+        }
+
+        .expense-input {
+            flex: 2;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            border: 1.5px solid #e2e8f0;
+            font-weight: 700;
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .expense-note {
+            flex: 2;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e2e8f0;
+            font-size: 0.75rem;
+        }
+
+        .info-stats {
+            background: #f0f6fa;
+            border-radius: 1.2rem;
+            padding: 0.8rem;
+            text-align: center;
+            margin-top: 0.8rem;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1f4e6e;
+            font-family: monospace;
+        }
+
+        /* قسم الطوارئ والادخار في الوسط */
+        .emergency-savings-center {
+            max-width: 550px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .emergency-card {
+            background: #fefefe;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        }
+
+        .flex-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .savings-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #2c7a5e;
+            font-family: monospace;
+        }
+
+        /* قسم الصرف اليومي */
+        .daily-wrapper {
+            margin-top: 0.5rem;
+            border-top: 2px dashed #dce5ec;
+            padding-top: 1.5rem;
+        }
+
+        .daily-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: #1c3e55;
+        }
+
+        .daily-controls-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            background: #f8fafd;
+            padding: 0.8rem 1rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .ctrl-item {
+            flex: 1;
+            min-width: 130px;
+        }
+
+        .ctrl-item label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            display: block;
+            color: #3b5e7a;
+        }
+
+        .ctrl-item input {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            border: 1.5px solid #e2e8f0;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 1.2rem;
+            border: 1px solid #ecf3f9;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            min-width: 600px;
         }
 
         th {
-            background-color: var(--primary);
-            color: var(--surface);
-            padding: 18px 15px;
-            font-size: 15px;
-            text-align: right;
+            background: #1e3c5c;
+            color: white;
+            padding: 0.7rem 0.4rem;
+            font-weight: 700;
         }
-        
-        th:first-child { border-top-right-radius: 10px; }
-        th:last-child { border-top-left-radius: 10px; }
 
         td {
-            padding: 15px;
-            border-bottom: 1px solid #edf2f7;
-            vertical-align: middle;
-            background: var(--surface);
+            padding: 0.7rem 0.4rem;
+            border-bottom: 1px solid #eef2f7;
+            text-align: center;
         }
 
-        input.spend-input {
+        .daily-spend-input {
             width: 90px;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            border: 1.5px solid #dee6ef;
             text-align: center;
             font-weight: 700;
-            font-size: 16px;
-            font-family: inherit;
-        }
-        
-        input.spend-input:focus {
-            border-color: var(--accent);
-            outline: none;
+            font-family: monospace;
         }
 
-        input.note-input {
-            width: 95%;
-            padding: 10px;
-            border: 1px solid #edf2f7;
-            border-radius: 8px;
-            font-family: inherit;
-            background: #f8fafc;
+        .note-input-sm {
+            width: 130px;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            border: 1px solid #dee6ef;
+            font-size: 0.7rem;
         }
 
-        .date-cell {
-            line-height: 1.6;
-        }
-
-        .save-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 10px 20px;
+        .badge-status {
+            padding: 0.2rem 0.5rem;
             border-radius: 30px;
             font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0, 176, 155, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1000;
+            display: inline-block;
+            font-size: 0.7rem;
         }
 
-        .show-save { opacity: 1; }
+        @media (max-width: 850px) {
+            .row-income-expenses {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .dashboard {
+                padding: 1rem;
+            }
+            .hero {
+                padding: 1rem;
+            }
+            .main-title {
+                font-size: 1.2rem;
+            }
+            .expense-label {
+                min-width: 100px;
+            }
+        }
 
         @media print {
             body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; padding: 0; }
-            .top-buttons, .settings-panel { display: none; }
-            input { border: none !important; background: transparent !important; }
-            th { background-color: #f1f2f6 !important; color: black !important; }
+            .action-bar, .action-btn, .daily-controls-grid, .expense-note, .note-input-sm, .daily-spend-input { display: none !important; }
+            .main-card { box-shadow: none; border-radius: 0; }
+            .hero { background: #1e3c5c; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            input, .expense-input, .income-input-large { border: none !important; background: transparent !important; }
+            .badge-status { border: none; background: transparent !important; color: black; }
         }
     </style>
 </head>
 <body>
-
-<div class="save-indicator" id="saveMsg">✅ تم الحفظ تلقائياً</div>
-
-<div class="container">
-    <header>
-        <div class="top-buttons">
-            <button class="btn btn-print" onclick="window.print()">🖨️ طباعة</button>
-            <button class="btn btn-clear" onclick="clearData()">🗑️ مسح البيانات</button>
+<div class="main-card">
+    <div class="hero">
+        <div class="title-section">
+            <div class="main-title">💰 الميزانية الذكية | إيرادات · مصاريف · ادخار تلقائي</div>
+            <div class="subhead">
+                <span class="developer-badge">كليب بن أحمد بن ضيف الله الزهراني</span>
+                <span class="developer-badge">📊 خطتك المالية</span>
+            </div>
         </div>
-        <h1>نظام تقييد الصرف اليومي للبيت</h1>
-        <div class="prepared-by">أعده: كليب بن أحمد ضيف الله الزهراني</div>
-    </header>
-
-    <div class="settings-panel">
-        <div class="settings-grid">
-            <div class="input-group">
-                <label>الميزانية الإجمالية (ريال)</label>
-                <input type="number" id="set-budget" onchange="updateSettings()">
-            </div>
-            <div class="input-group">
-                <label>المدة (أيام)</label>
-                <input type="number" id="set-days" onchange="updateSettings()">
-            </div>
-            <div class="input-group">
-                <label>الحد اليومي المستهدف (ريال)</label>
-                <input type="number" id="set-daily-limit" onchange="updateSettings()">
-            </div>
-            <div class="input-group">
-                <label>تاريخ البداية</label>
-                <input type="date" id="set-date" onchange="updateSettings()">
-            </div>
+        <div class="action-bar">
+            <button class="action-btn" id="printBtn">🖨️ طباعة</button>
+            <button class="action-btn" id="exportExcelBtn">📎 تصدير إكسل</button>
+            <button class="action-btn" id="resetBtn">🗑️ إعادة تعيين</button>
         </div>
     </div>
 
-    <div class="summary-cards">
-        <div class="card">
-            <h3>إجمالي المنصرف</h3>
-            <div class="value" id="totalSpent" style="color: var(--danger)">0.00</div>
-        </div>
-        <div class="card">
-            <h3>الرصيد المتبقي</h3>
-            <div class="value" id="remainingBudget" style="color: var(--secondary)">0.00</div>
-        </div>
-        <div class="card">
-            <h3>الحد المتاح للإنفاق اليوم</h3>
-            <div class="value" id="avgTarget" style="color: var(--success)">0.00</div>
-        </div>
-    </div>
+    <div class="dashboard">
+        <!-- الصف الأول: الدخل + المصاريف الشهرية -->
+        <div class="row-income-expenses">
+            <!-- عمود الدخل -->
+            <div class="glass-card">
+                <div class="card-header"><h3>💰 الدخل الشهري</h3></div>
+                <input type="number" id="globalIncome" class="income-input-large" step="any" placeholder="0">
+                <div class="info-stats">
+                    <div>📋 إجمالي المصاريف (بدون طوارئ)</div>
+                    <div class="stat-number" id="totalExpensesWithoutEmergency">0.00</div>
+                </div>
+            </div>
 
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>اليوم والتاريخ</th>
-                    <th style="text-align: center;">المصروف الفعلي</th>
-                    <th style="text-align: center;">الهدف المسموح</th>
-                    <th style="text-align: center;">مؤشر الأداء</th>
-                    <th>البيان / ملاحظات</th>
-                </tr>
-            </thead>
-            <tbody id="budgetBody"></tbody>
-        </table>
+            <!-- عمود المصاريف الشهرية (قابلة للتعديل) -->
+            <div class="glass-card">
+                <div class="card-header"><h3>📋 المصاريف الشهرية</h3></div>
+                <div id="expensesList"></div>
+                <div class="info-stats" style="margin-top: 10px; font-size: 0.7rem;">
+                    ✅ "الصرف الشهري" هو المبلغ الموزع على الأيام بالجدول أدناه
+                </div>
+            </div>
+        </div>
+
+        <!-- القسم الأوسط: الطوارئ والادخار (في المنتصف) -->
+        <div class="emergency-savings-center">
+            <div class="emergency-card">
+                <div class="card-header"><h3>⚠️ الطوارئ و 🏦 الادخار التلقائي</h3></div>
+                <div class="flex-row">
+                    <span style="font-weight:800;">مبلغ الطوارئ:</span>
+                    <input type="number" id="emergencyValue" step="any" style="width:160px; padding:0.6rem; border-radius:1rem; border:1.5px solid #e2e8f0; font-weight:700; font-family:monospace;">
+                </div>
+                <div class="flex-row" style="border-top: 1px solid #eef2f7; padding-top: 0.8rem;">
+                    <span style="font-weight:800;">🏦 الادخار التلقائي (المتبقي)</span>
+                    <span class="savings-number" id="savingsAuto">0.00</span>
+                </div>
+                <div class="info-stats" style="margin-top: 0.8rem; font-size:0.75rem;">
+                    💡 الادخار = الدخل - (جميع المصاريف + الطوارئ)
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الصرف اليومي والجدول -->
+        <div class="daily-wrapper">
+            <div class="daily-title">📅 تقييد الصرف اليومي (من مخصص "الصرف الشهري")</div>
+            <div class="daily-controls-grid">
+                <div class="ctrl-item"><label>🎯 الهدف اليومي (ريال)</label><input type="number" id="dailyPlanInput" step="any" placeholder="0"></div>
+                <div class="ctrl-item"><label>📆 عدد الأيام</label><input type="number" id="daysNumber" step="1" value="30"></div>
+                <div class="ctrl-item"><label>🗓️ تاريخ البداية</label><input type="date" id="startDatePicker"></div>
+                <div class="ctrl-item"><label>💵 إجمالي المتاح (صرف شهري)</label><input type="number" id="totalMonthlyPool" readonly style="background:#ecf3f9; font-family:monospace;"></div>
+            </div>
+            <div class="table-wrapper">
+                <table id="dailyExpenseTable">
+                    <thead>
+                        <tr><th>اليوم / التاريخ</th><th>المصروف الفعلي (ريال)</th><th>الهدف الديناميكي</th><th>مؤشر الأداء</th><th>ملاحظات</th></tr>
+                    </thead>
+                    <tbody id="dailyTableTbody"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    // مفتاح الحفظ في المتصفح
-    const STORAGE_KEY = 'kulaib_budget_data';
+    // ======================== دالة تحويل الأرقام العربية إلى إنجليزية ==================
+    function toEnglishNumber(str) {
+        if (str === undefined || str === null) return "0";
+        const arabicNumbers = '٠١٢٣٤٥٦٧٨٩';
+        const englishNumbers = '0123456789';
+        return String(str).replace(/[٠-٩]/g, function(d) {
+            return englishNumbers[arabicNumbers.indexOf(d)];
+        }).replace(/[۰-۹]/g, function(d) {
+            return englishNumbers[arabicNumbers.indexOf(d)];
+        });
+    }
 
-    // الإعدادات الافتراضية
-    let config = {
-        budget: 3000,
+    function formatNumber(value, decimals = 2) {
+        let num = parseFloat(value);
+        if (isNaN(num)) num = 0;
+        let fixed = num.toFixed(decimals);
+        return toEnglishNumber(fixed);
+    }
+
+    // ------------------- البيانات -------------------
+    const STORAGE_KEY = 'smart_budget_v8_horizontal';
+
+    const expenseCategories = [
+        { id: 'bills', label: '📄 فواتير (كهرباء/ماء/اتصالات)', defaultVal: 800 },
+        { id: 'rent', label: '🏠 إيجار', defaultVal: 3000 },
+        { id: 'installments', label: '💰 أقساط وديون', defaultVal: 1000 },
+        { id: 'misc', label: '🔄 أخرى (متفرقات)', defaultVal: 500 },
+        { id: 'monthlySpending', label: '🛒 الصرف الشهري (لليومي)', defaultVal: 2500 }
+    ];
+
+    let globalIncome = 15000;
+    let emergencyAmount = 500;
+    let expenses = {};
+    let expenseNotes = {};
+
+    let daily = {
         days: 30,
-        dailyLimit: 100, // الحد اليومي الافتراضي
-        startDate: "2026-04-27",
+        startDate: new Date().toISOString().slice(0,10),
+        plannedDailyBudget: 0,
         spending: [],
         notes: []
     };
 
-    // تحميل البيانات المحفوظة (إن وجدت)
-    function loadData() {
+    function initExpenses() {
+        for (let cat of expenseCategories) {
+            if (expenses[cat.id] === undefined) expenses[cat.id] = cat.defaultVal;
+            if (expenseNotes[cat.id] === undefined) expenseNotes[cat.id] = "";
+        }
+    }
+    initExpenses();
+
+    function getTotalExpensesWithoutEmergency() {
+        let total = 0;
+        for (let cat of expenseCategories) {
+            total += (expenses[cat.id] || 0);
+        }
+        return total;
+    }
+
+    function computeSavings() {
+        let total = getTotalExpensesWithoutEmergency() + emergencyAmount;
+        let saving = globalIncome - total;
+        return saving > 0 ? saving : 0;
+    }
+
+    function refreshDailyBudgetFromMonthly() {
+        let monthly = expenses['monthlySpending'] || 0;
+        if (daily.days > 0 && monthly > 0) {
+            daily.plannedDailyBudget = monthly / daily.days;
+        } else {
+            daily.plannedDailyBudget = 0;
+        }
+        const planInput = document.getElementById('dailyPlanInput');
+        if (planInput) planInput.value = formatNumber(daily.plannedDailyBudget, 2);
+        const poolInput = document.getElementById('totalMonthlyPool');
+        if (poolInput) poolInput.value = formatNumber(monthly, 2);
+    }
+
+    function persistAll() {
+        const data = {
+            globalIncome, emergencyAmount, expenses, expenseNotes,
+            daily: {
+                days: daily.days,
+                startDate: daily.startDate,
+                plannedDailyBudget: daily.plannedDailyBudget,
+                spending: daily.spending,
+                notes: daily.notes
+            }
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        const msg = document.createElement('div');
+        msg.textContent = '✅ تم الحفظ';
+        msg.style.position = 'fixed';
+        msg.style.bottom = '20px';
+        msg.style.right = '20px';
+        msg.style.background = '#2c7a5e';
+        msg.style.color = '#fff';
+        msg.style.padding = '6px 16px';
+        msg.style.borderRadius = '40px';
+        msg.style.fontSize = '0.8rem';
+        msg.style.zIndex = '999';
+        msg.style.fontWeight = 'bold';
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 1300);
+    }
+
+    function loadAllData() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
-            config = JSON.parse(saved);
-            // لضمان التوافق مع البيانات القديمة التي لم تكن تحتوي على هذا الحقل
-            if(!config.dailyLimit) config.dailyLimit = config.budget / config.days;
-        } else {
-            config.spending = new Array(config.days).fill(null);
-            config.notes = new Array(config.days).fill('');
+            try {
+                const p = JSON.parse(saved);
+                if (p.globalIncome !== undefined) globalIncome = p.globalIncome;
+                if (p.emergencyAmount !== undefined) emergencyAmount = p.emergencyAmount;
+                if (p.expenses) expenses = p.expenses;
+                if (p.expenseNotes) expenseNotes = p.expenseNotes;
+                if (p.daily) {
+                    daily.days = p.daily.days;
+                    daily.startDate = p.daily.startDate;
+                    daily.plannedDailyBudget = p.daily.plannedDailyBudget;
+                    daily.spending = p.daily.spending || [];
+                    daily.notes = p.daily.notes || [];
+                }
+            } catch(e) {}
         }
-        
-        // تحديث حقول الإعدادات بالقيم
-        document.getElementById('set-budget').value = config.budget;
-        document.getElementById('set-days').value = config.days;
-        document.getElementById('set-daily-limit').value = config.dailyLimit;
-        document.getElementById('set-date').value = config.startDate;
+        if (daily.spending.length !== daily.days) {
+            let newSpend = new Array(daily.days).fill(null);
+            let newNotes = new Array(daily.days).fill('');
+            for (let i=0; i<Math.min(daily.spending.length, daily.days); i++) {
+                newSpend[i] = daily.spending[i];
+                newNotes[i] = daily.notes[i];
+            }
+            daily.spending = newSpend;
+            daily.notes = newNotes;
+        }
+        document.getElementById('globalIncome').value = formatNumber(globalIncome, 0);
+        document.getElementById('emergencyValue').value = formatNumber(emergencyAmount, 2);
+        document.getElementById('daysNumber').value = daily.days;
+        document.getElementById('startDatePicker').value = daily.startDate;
+        refreshDailyBudgetFromMonthly();
+        renderExpensesUI();
+        renderDailyTable();
+        updateSummaries();
     }
 
-    // حفظ البيانات
-    function saveData() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-        showSaveIndicator();
-    }
-
-    function showSaveIndicator() {
-        const msg = document.getElementById('saveMsg');
-        msg.classList.add('show-save');
-        setTimeout(() => msg.classList.remove('show-save'), 2000);
-    }
-
-    function clearData() {
-        if(confirm('هل أنت متأكد أنك تريد مسح جميع البيانات والبدء من جديد؟')) {
-            localStorage.removeItem(STORAGE_KEY);
-            location.reload();
+    function renderExpensesUI() {
+        const container = document.getElementById('expensesList');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let cat of expenseCategories) {
+            const val = expenses[cat.id] !== undefined ? expenses[cat.id] : 0;
+            const note = expenseNotes[cat.id] || '';
+            const div = document.createElement('div');
+            div.className = 'expense-item';
+            div.innerHTML = `
+                <span class="expense-label">${cat.label}</span>
+                <input type="number" class="expense-input" data-id="${cat.id}" value="${formatNumber(val, 2)}" step="any" placeholder="0">
+                <input type="text" class="expense-note" placeholder="ملاحظة" value="${escapeHtml(note)}">
+            `;
+            const moneyInput = div.querySelector('.expense-input');
+            const noteInput = div.querySelector('.expense-note');
+            moneyInput.addEventListener('change', (e) => {
+                let raw = e.target.value;
+                let newVal = parseFloat(toEnglishNumber(raw));
+                if (isNaN(newVal)) newVal = 0;
+                expenses[cat.id] = newVal;
+                if (cat.id === 'monthlySpending') {
+                    refreshDailyBudgetFromMonthly();
+                    renderDailyTable();
+                }
+                updateSummaries();
+                persistAll();
+                renderExpensesUI();
+            });
+            noteInput.addEventListener('change', (e) => {
+                expenseNotes[cat.id] = e.target.value;
+                persistAll();
+            });
+            container.appendChild(div);
         }
     }
 
-    // تصدير البيانات إلى ملف إكسل (CSV)
-    function exportToExcel() {
-        let csvContent = "\uFEFF"; // لدعم اللغة العربية في إكسل
-        csvContent += "اليوم والتاريخ,المصروف الفعلي,الهدف المسموح,مؤشر الأداء,البيان / ملاحظات\n";
+    function updateSummaries() {
+        const totalWithout = getTotalExpensesWithoutEmergency();
+        const savings = computeSavings();
+        document.getElementById('totalExpensesWithoutEmergency').innerText = formatNumber(totalWithout, 2);
+        document.getElementById('savingsAuto').innerText = formatNumber(savings, 2);
+    }
 
-        let startObj = new Date(config.startDate);
-        let baseDaily = config.dailyLimit;
+    function renderDailyTable() {
+        const tbody = document.getElementById('dailyTableTbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        let start = new Date(daily.startDate);
+        let days = daily.days;
+        let basePlan = daily.plannedDailyBudget;
+        let totalMonthly = expenses['monthlySpending'] || 0;
 
-        for (let i = 0; i < config.days; i++) {
-            let d = new Date(startObj);
-            d.setDate(d.getDate() + i);
-            const greg = new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
-            
-            let spendValue = config.spending[i] !== null ? config.spending[i] : "";
-            let noteValue = (config.notes[i] || '').replace(/,/g, '،').replace(/"/g, '""'); // تنظيف الفواصل لمنع تداخل الأعمدة
-            
-            let status = "-";
-            if (config.spending[i] !== null) {
-                const diff = baseDaily - config.spending[i];
-                status = diff >= 0 ? `+ ${diff.toFixed(0)} وفر` : `- ${Math.abs(diff).toFixed(0)} زيادة`;
+        let remainingBudget = totalMonthly;
+        for (let i=0; i<days; i++) {
+            let spent = daily.spending[i];
+            if (spent !== null && !isNaN(spent)) remainingBudget -= spent;
+        }
+        let lastFilled = -1;
+        for (let i=0; i<days; i++) {
+            if (daily.spending[i] !== null && !isNaN(daily.spending[i])) lastFilled = i;
+        }
+
+        for (let i=0; i<days; i++) {
+            let curr = new Date(start);
+            curr.setDate(start.getDate() + i);
+            const weekDay = new Intl.DateTimeFormat('ar-SA', { weekday: 'long' }).format(curr);
+            const greg = new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long' }).format(curr);
+            const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long' }).format(curr);
+            let spendVal = (daily.spending[i] !== null) ? daily.spending[i] : '';
+            let noteVal = daily.notes[i] || '';
+
+            let dynamicTarget = basePlan;
+            let daysRemaining = days - i;
+            if (i > lastFilled && daysRemaining > 0 && remainingBudget > 0) {
+                dynamicTarget = remainingBudget / daysRemaining;
+            } else if (i <= lastFilled) {
+                dynamicTarget = basePlan;
             }
 
-            csvContent += `"${greg}","${spendValue}","${baseDaily.toFixed(0)}","${status}","${noteValue}"\n`;
-        }
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "تقرير_الميزانية_الذكية.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    // تحديث الإعدادات العلوية
-    function updateSettings() {
-        config.budget = parseFloat(document.getElementById('set-budget').value) || 3000;
-        config.dailyLimit = parseFloat(document.getElementById('set-daily-limit').value) || 0;
-        let newDays = parseInt(document.getElementById('set-days').value) || 30;
-        config.startDate = document.getElementById('set-date').value;
-
-        // تعديل حجم المصفوفات إذا تغير عدد الأيام
-        if (newDays !== config.days) {
-            config.days = newDays;
-            let oldSpending = [...config.spending];
-            let oldNotes = [...config.notes];
-            
-            config.spending = new Array(config.days).fill(null);
-            config.notes = new Array(config.days).fill('');
-            
-            for(let i=0; i<Math.min(oldSpending.length, config.days); i++){
-                config.spending[i] = oldSpending[i];
-                config.notes[i] = oldNotes[i];
+            let statusText = "-", statusClass = "neutral";
+            if (spendVal !== '' && !isNaN(parseFloat(spendVal))) {
+                let diff = dynamicTarget - parseFloat(spendVal);
+                if (diff > 0) { statusText = `+ ${formatNumber(diff, 2)} وفر`; statusClass = "positive"; }
+                else if (diff < 0) { statusText = `- ${formatNumber(Math.abs(diff), 2)} زيادة`; statusClass = "negative"; }
+                else { statusText = "مطابق"; statusClass = "neutral"; }
             }
-        }
-        
-        saveData();
-        buildTable();
-        calculateTotals();
-    }
-
-    // بناء الجدول
-    function buildTable() {
-        const body = document.getElementById('budgetBody');
-        body.innerHTML = '';
-        
-        let startObj = new Date(config.startDate);
-        let baseDaily = config.dailyLimit;
-
-        for (let i = 0; i < config.days; i++) {
-            let d = new Date(startObj);
-            d.setDate(d.getDate() + i);
-            
-            const dayName = new Intl.DateTimeFormat('ar-SA', { weekday: 'long' }).format(d);
-            const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long' }).format(d);
-            const greg = new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long' }).format(d);
-            
-            let spendValue = config.spending[i] !== null ? config.spending[i] : '';
-            let noteValue = config.notes[i] || '';
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="date-cell">
-                    <strong style="color: var(--primary)">${dayName}</strong><br>
-                    <span style="font-size: 12px; color: var(--text-light)">${hijri} | ${greg}</span>
-                </td>
-                <td style="text-align: center;">
-                    <input type="number" class="spend-input" placeholder="0" value="${spendValue}" 
-                           oninput="handleInput(${i}, this.value, 'spend')">
-                </td>
-                <td style="text-align: center; font-weight: bold;" id="planned-${i}">
-                    ${baseDaily.toFixed(0)}
-                </td>
-                <td style="text-align: center; font-weight: bold;" id="status-${i}">-</td>
-                <td>
-                    <input type="text" class="note-input" placeholder="اكتب بياناً هنا..." value="${noteValue}"
-                           oninput="handleInput(${i}, this.value, 'note')">
-                </td>
+                <td style="text-align:right;"><strong>${weekDay}</strong><br><span style="font-size:10px;">${hijri} | ${greg}</span></td>
+                <td><input type="number" class="daily-spend-input" value="${spendVal !== '' ? formatNumber(spendVal, 2) : ''}" step="any" data-dayidx="${i}"></td>
+                <td style="font-weight:bold; font-family:monospace;">${formatNumber(dynamicTarget, 2)}</td>
+                <td><span class="badge-status" style="background:${statusClass === 'positive' ? '#dff0e8' : statusClass === 'negative' ? '#ffe2df' : '#eef2f7'};color:${statusClass === 'positive' ? '#1f6e4a' : statusClass === 'negative' ? '#b13e2e' : '#4a627a'}">${statusText}</span></td>
+                <td><input type="text" class="note-input-sm" value="${escapeHtml(noteVal)}" data-noteidx="${i}"></td>
             `;
-            body.appendChild(row);
+            const spendInp = row.querySelector('.daily-spend-input');
+            const noteInp = row.querySelector('.note-input-sm');
+            spendInp.addEventListener('change', (e) => {
+                let raw = e.target.value;
+                let newVal = (raw === '' || raw === null) ? null : parseFloat(toEnglishNumber(raw));
+                if (isNaN(newVal)) newVal = null;
+                daily.spending[i] = newVal;
+                renderDailyTable();
+                persistAll();
+            });
+            noteInp.addEventListener('change', (e) => {
+                daily.notes[i] = e.target.value;
+                persistAll();
+            });
+            tbody.appendChild(row);
         }
     }
 
-    function handleInput(idx, val, type) {
-        if (type === 'spend') {
-            config.spending[idx] = (val === '') ? null : parseFloat(val);
-            calculateTotals();
-        } else if (type === 'note') {
-            config.notes[idx] = val;
-        }
-        saveData();
-    }
-
-    // الحسابات الرياضية
-    function calculateTotals() {
-        let used = 0;
-        let lastFilledIdx = -1;
-
-        config.spending.forEach((val, idx) => {
-            if (val !== null && !isNaN(val)) {
-                used += val;
-                lastFilledIdx = idx;
+    // أحداث عامة
+    function bindGlobalEvents() {
+        document.getElementById('globalIncome').addEventListener('change', (e) => {
+            let raw = e.target.value;
+            let val = parseFloat(toEnglishNumber(raw));
+            if (isNaN(val)) val = 0;
+            globalIncome = val;
+            updateSummaries();
+            persistAll();
+        });
+        document.getElementById('emergencyValue').addEventListener('change', (e) => {
+            let raw = e.target.value;
+            let val = parseFloat(toEnglishNumber(raw));
+            if (isNaN(val)) val = 0;
+            emergencyAmount = val;
+            updateSummaries();
+            persistAll();
+        });
+        document.getElementById('daysNumber').addEventListener('change', (e) => {
+            let raw = e.target.value;
+            let newDays = parseInt(toEnglishNumber(raw));
+            if (isNaN(newDays) || newDays < 1) newDays = 1;
+            let oldSpend = [...daily.spending];
+            let oldNotes = [...daily.notes];
+            daily.days = newDays;
+            daily.spending = new Array(newDays).fill(null);
+            daily.notes = new Array(newDays).fill('');
+            for (let i=0; i<Math.min(oldSpend.length, newDays); i++) {
+                daily.spending[i] = oldSpend[i];
+                daily.notes[i] = oldNotes[i];
+            }
+            refreshDailyBudgetFromMonthly();
+            renderDailyTable();
+            persistAll();
+        });
+        document.getElementById('startDatePicker').addEventListener('change', (e) => {
+            daily.startDate = e.target.value;
+            renderDailyTable();
+            persistAll();
+        });
+        document.getElementById('dailyPlanInput').addEventListener('change', (e) => {
+            let raw = e.target.value;
+            let newPlan = parseFloat(toEnglishNumber(raw));
+            if (!isNaN(newPlan) && newPlan >= 0 && daily.days > 0) {
+                daily.plannedDailyBudget = newPlan;
+                let newMonthly = newPlan * daily.days;
+                expenses['monthlySpending'] = newMonthly;
+                refreshDailyBudgetFromMonthly();
+                renderExpensesUI();
+                renderDailyTable();
+                updateSummaries();
+                persistAll();
             }
         });
-
-        const remaining = config.budget - used;
-        const daysLeft = config.days - (lastFilledIdx + 1);
-        const dynamicAvg = daysLeft > 0 ? (remaining / daysLeft) : 0;
-        const baseDaily = config.dailyLimit;
-
-        // تحديث البطاقات
-        document.getElementById('totalSpent').textContent = used.toFixed(2);
-        document.getElementById('remainingBudget').textContent = remaining.toFixed(2);
-        document.getElementById('avgTarget').textContent = (daysLeft > 0 ? dynamicAvg : 0).toFixed(2);
-
-        // تحديث صفوف الجدول
-        for (let i = 0; i < config.days; i++) {
-            const pCell = document.getElementById(`planned-${i}`);
-            const sCell = document.getElementById(`status-${i}`);
-            
-            if (!pCell || !sCell) continue;
-
-            if (i <= lastFilledIdx) {
-                if (config.spending[i] !== null) {
-                    const diff = baseDaily - config.spending[i];
-                    sCell.textContent = diff >= 0 ? `+ ${diff.toFixed(0)} وفر` : `- ${Math.abs(diff).toFixed(0)} زيادة`;
-                    sCell.style.color = diff >= 0 ? 'var(--success)' : 'var(--danger)';
-                    pCell.style.color = 'var(--text-light)';
-                }
-            } else {
-                pCell.textContent = dynamicAvg.toFixed(2);
-                pCell.style.color = 'var(--primary)';
-                sCell.textContent = '-';
-                sCell.style.color = 'var(--text-light)';
-            }
-        }
     }
 
-    // التشغيل الأولي
-    loadData();
-    buildTable();
-    calculateTotals();
+    function attachButtons() {
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+        document.getElementById('exportExcelBtn').addEventListener('click', exportToCSV);
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('⚠️ إعادة تعيين جميع البيانات إلى القيم الافتراضية؟')) {
+                localStorage.removeItem(STORAGE_KEY);
+                globalIncome = 15000;
+                emergencyAmount = 500;
+                expenses = {};
+                expenseNotes = {};
+                for (let cat of expenseCategories) expenses[cat.id] = cat.defaultVal;
+                daily = {
+                    days: 30,
+                    startDate: new Date().toISOString().slice(0,10),
+                    plannedDailyBudget: 0,
+                    spending: new Array(30).fill(null),
+                    notes: new Array(30).fill('')
+                };
+                loadAllData();
+            }
+        });
+    }
 
+    function exportToCSV() {
+        let rows = [];
+        rows.push(["تقرير الميزانية الذكية - كليب بن أحمد الزهراني"]);
+        rows.push(["الدخل الإجمالي", toEnglishNumber(globalIncome)]);
+        rows.push(["مبلغ الطوارئ", toEnglishNumber(emergencyAmount)]);
+        rows.push([]);
+        rows.push(["المصاريف الشهرية"]);
+        rows.push(["الفئة", "المبلغ", "ملاحظة"]);
+        for (let cat of expenseCategories) {
+            rows.push([cat.label, toEnglishNumber(expenses[cat.id] || 0), expenseNotes[cat.id] || ""]);
+        }
+        rows.push([]);
+        rows.push(["الادخار التلقائي", toEnglishNumber(computeSavings())]);
+        rows.push([]);
+        rows.push(["تفاصيل الصرف اليومي"]);
+        rows.push(["اليوم", "التاريخ", "المصروف الفعلي", "الهدف الديناميكي", "الملاحظات"]);
+        let start = new Date(daily.startDate);
+        for (let i=0; i<daily.days; i++) {
+            let d = new Date(start);
+            d.setDate(start.getDate() + i);
+            let dateStr = d.toLocaleDateString('ar-EG');
+            let spend = daily.spending[i] !== null ? daily.spending[i] : "";
+            let note = daily.notes[i] || "";
+            rows.push([`اليوم ${i+1}`, dateStr, spend, "", note]);
+        }
+        let csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
+        const blob = new Blob(["\uFEFF" + csv], {type: "text/csv;charset=utf-8;"});
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "ميزانية_ذكية.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+
+    loadAllData();
+    bindGlobalEvents();
+    attachButtons();
+    window.addEventListener('beforeunload', () => persistAll());
 </script>
 </body>
 </html>
